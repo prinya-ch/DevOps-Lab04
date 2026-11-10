@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#073b73">
+  <meta name="description" content="ศูนย์แจ้งซ้อมและจัดการสถานการณ์สำหรับทีม IT Support ฝึกพร้อม รับมือไว ทำงานเป็นทีม">
+  <title>DRILL OPS | ศูนย์แจ้งซ้อม IT Support</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+      --navy: #073b73;
+      --blue: #1264b5;
+      --blue-bright: #1879d2;
+      --ink: #122a42;
+      --muted: #64788b;
+      --line: #dce6ef;
+      --paper: #ffffff;
+      --canvas: #f3f7fa;
+      --cyan: #a9e5e9;
+      --mint: #d5f3e7;
+      --amber: #ffce63;
+      font-family: "IBM Plex Sans Thai", "DM Sans", sans-serif;
+      font-synthesis: none;
+      text-rendering: optimizeLegibility;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; color: var(--ink); background: var(--canvas); }
+    button, select, input { font: inherit; }
+    button { cursor: pointer; }
+    a { color: inherit; text-decoration: none; }
+
+    .site-header { height: 74px; background: var(--paper); border-bottom: 1px solid var(--line); }
+    .header-inner { width: min(1180px, calc(100% - 48px)); height: 100%; margin: auto; display: flex; align-items: center; justify-content: space-between; gap: 30px; }
+    .brand { display: inline-flex; align-items: center; gap: 11px; flex-shrink: 0; }
+    .brand-mark { width: 35px; height: 35px; display: grid; place-items: center; color: white; background: var(--blue); border-radius: 7px; font: 700 14px/1 "DM Sans", sans-serif; letter-spacing: 0; }
+    .brand-copy { display: grid; gap: 1px; }
+    .brand-name { color: var(--navy); font: 700 15px/1.1 "DM Sans", sans-serif; letter-spacing: .7px; }
+    .brand-caption { color: var(--muted); font-size: 10px; }
+    .main-nav { display: flex; align-items: center; gap: 30px; margin-left: auto; color: #536b80; font-size: 13px; }
+    .main-nav a:hover, .main-nav a:focus-visible { color: var(--blue); }
+    .header-actions { display: flex; align-items: center; gap: 15px; }
+    .text-button { padding: 8px 0; border: 0; color: var(--blue); background: transparent; font-size: 13px; font-weight: 600; }
+    .button { min-height: 42px; display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 0 17px; border: 1px solid transparent; border-radius: 5px; font-size: 13px; font-weight: 600; transition: background .18s ease, transform .18s ease, border-color .18s ease; }
+    .button:hover { transform: translateY(-1px); }
+    .button-primary { color: white; background: var(--blue); }
+    .button-primary:hover { background: #0c559c; }
+    .button-light { color: var(--navy); background: white; }
+    .button-light:hover { background: #eef7ff; }
+    .button-outline { border-color: #b7cde0; color: var(--blue); background: white; }
+    .button-outline:hover { border-color: var(--blue); background: #f3f9ff; }
+
+    .hero { position: relative; min-height: 396px; overflow: hidden; color: white; background-color: #073b73; background-image: url("https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=2200&q=85"); background-position: center 49%; background-size: cover; }
+    .hero::before { position: absolute; inset: 0; content: ""; background: rgba(3, 42, 81, .79); }
+    .hero-inner { position: relative; width: min(1180px, calc(100% - 48px)); min-height: 396px; display: flex; align-items: center; justify-content: space-between; gap: 60px; margin: auto; padding: 55px 0 60px; }
+    .hero-copy { max-width: 630px; }
+    .eyebrow { display: flex; align-items: center; gap: 9px; margin: 0 0 17px; color: #bcecf0; font: 600 11px/1.4 "DM Sans", "IBM Plex Sans Thai", sans-serif; letter-spacing: 1px; }
+    .eyebrow::before { width: 22px; height: 2px; content: ""; background: var(--amber); }
+    h1 { max-width: 650px; margin: 0; font-size: clamp(32px, 4vw, 48px); line-height: 1.24; font-weight: 600; letter-spacing: 0; }
+    .hero-copy > p:not(.eyebrow) { max-width: 540px; margin: 14px 0 25px; color: #d3e2ef; font-size: 15px; line-height: 1.8; }
+    .hero-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .hero-note { display: flex; align-items: center; gap: 9px; margin-top: 24px; color: #d4e4ef; font-size: 11px; }
+    .live-dot { width: 7px; height: 7px; border-radius: 50%; background: #73e1bd; box-shadow: 0 0 0 4px rgba(115, 225, 189, .14); }
+    .hero-side { width: 235px; flex: 0 0 235px; align-self: flex-end; padding: 0 0 5px 20px; border-left: 1px solid rgba(255,255,255,.35); }
+    .side-label { margin: 0 0 8px; color: #bcecf0; font: 600 10px/1.4 "DM Sans", sans-serif; letter-spacing: 1px; }
+    .side-time { margin: 0; font: 600 25px/1.3 "DM Sans", "IBM Plex Sans Thai", sans-serif; }
+    .side-title { margin: 5px 0 0; color: #e1ebf3; font-size: 12px; line-height: 1.6; }
+
+    .content { width: min(1180px, calc(100% - 48px)); margin: 0 auto; padding: 40px 0 65px; }
+    .overview-strip { display: grid; grid-template-columns: repeat(3, 1fr); margin: -1px 0 44px; border-bottom: 1px solid var(--line); background: white; }
+    .metric { min-height: 82px; display: flex; align-items: center; gap: 15px; padding: 16px 24px; border-top: 1px solid var(--line); }
+    .metric + .metric { border-left: 1px solid var(--line); }
+    .metric-number { color: var(--blue); font: 700 23px/1 "DM Sans", sans-serif; }
+    .metric-label { color: var(--muted); font-size: 11px; line-height: 1.5; }
+    .metric-label strong { display: block; color: var(--ink); font-size: 12px; font-weight: 600; }
+    .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 20px; margin-bottom: 18px; }
+    .section-kicker { margin: 0 0 6px; color: var(--blue); font: 700 10px/1.3 "DM Sans", sans-serif; letter-spacing: 1px; }
+    h2 { margin: 0; color: var(--ink); font-size: 22px; line-height: 1.4; font-weight: 600; }
+    .section-description { margin: 5px 0 0; color: var(--muted); font-size: 12px; }
+    .all-link { display: inline-flex; align-items: center; gap: 8px; color: var(--blue); font-size: 12px; font-weight: 600; white-space: nowrap; }
+    .all-link:hover { color: var(--navy); }
+    .workspace { display: grid; grid-template-columns: minmax(0, 1fr) 310px; gap: 35px; align-items: start; }
+    .filter-bar { display: flex; gap: 7px; margin: 0 0 13px; padding-bottom: 11px; border-bottom: 1px solid var(--line); overflow-x: auto; }
+    .filter-button { flex: 0 0 auto; padding: 7px 12px; border: 1px solid transparent; border-radius: 4px; color: #63788d; background: transparent; font-size: 11px; }
+    .filter-button[aria-pressed="true"] { border-color: #c9dff0; color: var(--blue); background: #eaf5fd; font-weight: 600; }
+    .drill-list { display: grid; gap: 9px; }
+    .drill-item { display: grid; grid-template-columns: 42px minmax(0, 1fr) auto; align-items: center; gap: 14px; padding: 16px; border: 1px solid var(--line); border-radius: 6px; background: white; transition: border-color .18s ease, transform .18s ease; }
+    .drill-item[hidden] { display: none; }
+    .drill-item:hover { transform: translateY(-1px); border-color: #a9c8e3; }
+    .drill-icon { width: 40px; height: 40px; display: grid; place-items: center; border-radius: 5px; color: var(--blue); background: #e8f4fd; font: 700 12px/1 "DM Sans", sans-serif; }
+    .drill-icon.mint { color: #1d785c; background: var(--mint); }
+    .drill-icon.amber { color: #8a5b08; background: #fff1d2; }
+    .drill-name { margin: 0; font-size: 13px; font-weight: 600; line-height: 1.5; }
+    .drill-meta { display: flex; flex-wrap: wrap; gap: 6px 12px; margin-top: 4px; color: var(--muted); font-size: 10px; }
+    .drill-category { color: var(--blue); font-weight: 600; }
+    .drill-action { min-width: 80px; padding: 7px 10px; border: 1px solid #c8d9e7; border-radius: 4px; color: var(--blue); background: white; font-size: 11px; font-weight: 600; }
+    .drill-action:hover { border-color: var(--blue); background: #f2f8fd; }
+    .empty-state { padding: 28px 15px; color: var(--muted); text-align: center; font-size: 12px; }
+
+    .schedule { padding: 0 0 0 23px; border-left: 1px solid var(--line); }
+    .schedule-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 17px; }
+    .schedule-head h3 { margin: 0; font-size: 15px; font-weight: 600; }
+    .month-label { color: var(--muted); font: 500 10px/1 "DM Sans", sans-serif; }
+    .event { position: relative; padding: 0 0 21px 17px; border-left: 1px solid #b8d5eb; }
+    .event::before { position: absolute; top: 2px; left: -5px; width: 9px; height: 9px; border: 2px solid white; border-radius: 50%; content: ""; background: var(--blue); box-shadow: 0 0 0 1px var(--blue); }
+    .event:last-of-type { padding-bottom: 0; border-left-color: transparent; }
+    .event-date { margin: 0 0 5px; color: var(--blue); font: 700 10px/1.3 "DM Sans", "IBM Plex Sans Thai", sans-serif; }
+    .event-title { margin: 0; font-size: 12px; font-weight: 600; line-height: 1.5; }
+    .event-details { margin: 4px 0 0; color: var(--muted); font-size: 10px; line-height: 1.6; }
+    .event-join { margin-top: 10px; padding: 6px 10px; border: 1px solid #c8d9e7; border-radius: 4px; color: var(--blue); background: white; font-size: 10px; font-weight: 600; }
+    .event-join[aria-pressed="true"] { border-color: #a5dec8; color: #197252; background: #e7f8f0; }
+    .team-note { margin-top: 23px; padding: 13px 14px; border-left: 3px solid #58c3c0; background: #e8f5f5; }
+    .team-note strong { display: block; margin-bottom: 3px; font-size: 11px; }
+    .team-note p { margin: 0; color: #53717b; font-size: 10px; line-height: 1.6; }
+
+    .method { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0; margin-top: 52px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: white; }
+    .method-step { display: flex; gap: 13px; padding: 19px 21px; }
+    .method-step + .method-step { border-left: 1px solid var(--line); }
+    .step-num { color: #72aecf; font: 700 12px/1.5 "DM Sans", sans-serif; }
+    .step-copy strong { display: block; margin-bottom: 3px; font-size: 12px; font-weight: 600; }
+    .step-copy span { color: var(--muted); font-size: 10px; line-height: 1.6; }
+    .site-footer { color: #d1dfeb; background: #082f56; }
+    .footer-inner { width: min(1180px, calc(100% - 48px)); min-height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 20px; margin: auto; font-size: 10px; }
+    .footer-brand { color: white; font: 700 11px/1 "DM Sans", sans-serif; letter-spacing: .6px; }
+
+    dialog { width: min(440px, calc(100% - 32px)); padding: 0; border: 1px solid #d5e1eb; border-radius: 8px; color: var(--ink); box-shadow: 0 22px 70px rgba(2, 29, 55, .28); }
+    dialog::backdrop { background: rgba(5, 28, 49, .6); }
+    .dialog-content { padding: 24px; }
+    .dialog-top { display: flex; justify-content: space-between; gap: 18px; align-items: start; }
+    .dialog-top h2 { font-size: 18px; }
+    .dialog-close { width: 30px; height: 30px; flex: 0 0 30px; border: 0; border-radius: 4px; color: #587086; background: #eff4f8; font-size: 17px; }
+    .dialog-description { margin: 9px 0 19px; color: var(--muted); font-size: 12px; line-height: 1.7; }
+    .form-label { display: block; margin: 0 0 6px; font-size: 11px; font-weight: 600; }
+    .form-control { width: 100%; min-height: 42px; margin-bottom: 14px; padding: 9px 11px; border: 1px solid #cbd9e5; border-radius: 4px; color: var(--ink); background: white; font-size: 12px; }
+    .form-control:focus { outline: 2px solid #acd2f1; outline-offset: 1px; }
+    .dialog-actions { display: flex; justify-content: end; gap: 8px; margin-top: 3px; }
+    .toast { position: fixed; right: 24px; bottom: 24px; z-index: 5; max-width: min(360px, calc(100% - 48px)); padding: 13px 17px; border-radius: 5px; color: white; background: #0c664d; box-shadow: 0 8px 30px rgba(10, 47, 67, .2); font-size: 12px; opacity: 0; transform: translateY(8px); pointer-events: none; transition: opacity .2s ease, transform .2s ease; }
+    .toast.is-visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 850px) {
+      .main-nav { gap: 17px; }
+      .workspace { grid-template-columns: minmax(0, 1fr) 250px; gap: 22px; }
+      .hero-side { width: 190px; flex-basis: 190px; }
+    }
+    @media (max-width: 680px) {
+      .site-header { height: 64px; }
+      .header-inner, .hero-inner, .content, .footer-inner { width: min(100% - 32px, 1180px); }
+      .main-nav { display: none; }
+      .header-actions { gap: 11px; }
+      .header-actions .text-button { display: none; }
+      .header-actions .button { min-height: 37px; padding: 0 12px; font-size: 11px; }
+      .hero, .hero-inner { min-height: 390px; }
+      .hero { background-position: 58% center; }
+      .hero-inner { align-items: start; flex-direction: column; justify-content: center; gap: 25px; padding: 36px 0; }
+      .hero-copy > p:not(.eyebrow) { font-size: 13px; }
+      .hero-side { width: auto; flex: initial; align-self: auto; padding: 0 0 0 13px; }
+      .side-time { font-size: 20px; }
+      .overview-strip { grid-template-columns: 1fr; margin-bottom: 35px; }
+      .metric { min-height: 65px; padding: 12px 16px; }
+      .metric + .metric { border-left: 0; border-top: 1px solid var(--line); }
+      .metric-number { min-width: 43px; font-size: 20px; }
+      .content { padding-top: 27px; }
+      .section-heading { align-items: start; }
+      .section-heading .all-link { font-size: 0; gap: 0; }
+      .section-heading .all-link::after { content: "›"; font-size: 23px; }
+      .workspace { grid-template-columns: minmax(0, 1fr); gap: 34px; }
+      .schedule { padding-left: 18px; }
+      .method { grid-template-columns: 1fr; margin-top: 38px; }
+      .method-step { padding: 15px 17px; }
+      .method-step + .method-step { border-top: 1px solid var(--line); border-left: 0; }
+      .footer-inner { min-height: 76px; align-items: start; flex-direction: column; justify-content: center; gap: 7px; }
+    }
+    @media (max-width: 380px) {
+      .header-inner { gap: 12px; }
+      .brand { gap: 8px; }
+      .brand-mark { width: 31px; height: 31px; }
+      .brand-name { font-size: 12px; }
+      .brand-caption { display: none; }
+      .header-actions { gap: 8px; }
+      .header-actions .button { padding: 0 9px; }
+      .schedule-head { align-items: flex-start; flex-wrap: wrap; gap: 7px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="#home" aria-label="DRILL OPS หน้าหลัก">
+        <span class="brand-mark" aria-hidden="true">DO</span>
+        <span class="brand-copy"><span class="brand-name">DRILL OPS</span><span class="brand-caption">IT SUPPORT EXERCISE HUB</span></span>
+      </a>
+      <nav class="main-nav" aria-label="เมนูหลัก">
+        <a href="#home">ภาพรวม</a>
+        <a href="#scenarios">สถานการณ์ซ้อม</a>
+        <a href="#schedule">ตารางซ้อม</a>
+        <a href="#method">แนวทางการซ้อม</a>
+      </nav>
+      <div class="header-actions">
+        <button class="text-button" type="button" data-notice="ระบบเข้าสู่ระบบสำหรับทีมงานจะเปิดให้ใช้งานเร็ว ๆ นี้">เข้าสู่ระบบ</button>
+        <a class="button button-primary" href="#schedule">ดูรอบซ้อม <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </header>
+
+  <main id="home">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-inner">
+        <div class="hero-copy">
+          <p class="eyebrow">ฝึกพร้อม · รับมือไว · ทำงานเป็นทีม</p>
+          <h1 id="hero-title">ศูนย์แจ้งซ้อม<br>สำหรับ IT Support</h1>
+          <p>เตรียมทีมให้พร้อมก่อนเหตุการณ์จริง ผ่านสถานการณ์จำลองที่ใกล้เคียงงานประจำวัน พร้อมฝึกการสื่อสารและการแก้ปัญหาอย่างเป็นระบบ</p>
+          <div class="hero-actions">
+            <a class="button button-light" href="#scenarios">สำรวจสถานการณ์ <span aria-hidden="true">→</span></a>
+            <a class="button button-outline" href="#schedule">ตารางฝึกซ้อม</a>
+          </div>
+          <div class="hero-note"><span class="live-dot" aria-hidden="true"></span> พื้นที่ฝึกซ้อมสำหรับทีม IT และ Service Desk</div>
+        </div>
+        <div class="hero-side" aria-label="รอบฝึกซ้อมถัดไป">
+          <p class="side-label">NEXT EXERCISE</p>
+          <p class="side-time">พุธ · 14:30 น.</p>
+          <p class="side-title">จำลองระบบเครือข่ายสำนักงานขัดข้อง</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="content">
+      <section class="overview-strip" aria-label="ภาพรวมการฝึกซ้อม">
+        <div class="metric"><span class="metric-number">06</span><span class="metric-label"><strong>สถานการณ์พร้อมซ้อม</strong>ครอบคลุมเหตุการณ์หลักของทีม</span></div>
+        <div class="metric"><span class="metric-number">03</span><span class="metric-label"><strong>รอบฝึกในเดือนนี้</strong>วางแผนร่วมกับทีมได้ล่วงหน้า</span></div>
+        <div class="metric"><span class="metric-number">24/7</span><span class="metric-label"><strong>พร้อมเรียนรู้ทุกเวลา</strong>ฝึกซ้ำและทบทวนได้เสมอ</span></div>
+      </section>
+
+      <section id="scenarios" aria-labelledby="scenario-heading">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">PRACTICE LIBRARY</p>
+            <h2 id="scenario-heading">สถานการณ์แนะนำ</h2>
+            <p class="section-description">เลือกโจทย์ให้เหมาะกับทักษะที่ทีมต้องการฝึก</p>
+          </div>
+          <a class="all-link" href="#schedule">ดูตารางฝึกซ้อม <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="workspace">
+          <div>
+            <div class="filter-bar" role="group" aria-label="กรองสถานการณ์ตามประเภท">
+              <button class="filter-button" type="button" aria-pressed="true" data-filter="all">ทั้งหมด</button>
+              <button class="filter-button" type="button" aria-pressed="false" data-filter="network">เครือข่าย</button>
+              <button class="filter-button" type="button" aria-pressed="false" data-filter="account">บัญชีผู้ใช้</button>
+              <button class="filter-button" type="button" aria-pressed="false" data-filter="hardware">อุปกรณ์</button>
+            </div>
+            <div class="drill-list" id="drill-list">
+              <article class="drill-item" data-category="network">
+                <div class="drill-icon">NET</div>
+                <div><h3 class="drill-name">เครือข่ายสำนักงานใช้งานไม่ได้</h3><div class="drill-meta"><span class="drill-category">เครือข่าย</span><span>ระดับปานกลาง</span><span>ประมาณ 20 นาที</span></div></div>
+                <button class="drill-action" type="button" data-scenario="เครือข่ายสำนักงานใช้งานไม่ได้">เริ่มซ้อม</button>
+              </article>
+              <article class="drill-item" data-category="account">
+                <div class="drill-icon mint">ID</div>
+                <div><h3 class="drill-name">พนักงานล็อกอินเข้าใช้งานไม่ได้</h3><div class="drill-meta"><span class="drill-category">บัญชีผู้ใช้</span><span>ระดับเริ่มต้น</span><span>ประมาณ 15 นาที</span></div></div>
+                <button class="drill-action" type="button" data-scenario="พนักงานล็อกอินเข้าใช้งานไม่ได้">เริ่มซ้อม</button>
+              </article>
+              <article class="drill-item" data-category="hardware">
+                <div class="drill-icon amber">HW</div>
+                <div><h3 class="drill-name">เครื่องพิมพ์ส่วนกลางหยุดทำงาน</h3><div class="drill-meta"><span class="drill-category">อุปกรณ์</span><span>ระดับเริ่มต้น</span><span>ประมาณ 15 นาที</span></div></div>
+                <button class="drill-action" type="button" data-scenario="เครื่องพิมพ์ส่วนกลางหยุดทำงาน">เริ่มซ้อม</button>
+              </article>
+              <article class="drill-item" data-category="network">
+                <div class="drill-icon">VPN</div>
+                <div><h3 class="drill-name">เชื่อมต่อ VPN จากนอกสำนักงานไม่ได้</h3><div class="drill-meta"><span class="drill-category">เครือข่าย</span><span>ระดับปานกลาง</span><span>ประมาณ 25 นาที</span></div></div>
+                <button class="drill-action" type="button" data-scenario="เชื่อมต่อ VPN จากนอกสำนักงานไม่ได้">เริ่มซ้อม</button>
+              </article>
+              <article class="drill-item" data-category="account">
+                <div class="drill-icon mint">MFA</div>
+                <div><h3 class="drill-name">ผู้ใช้ไม่ได้รับรหัสยืนยันตัวตน</h3><div class="drill-meta"><span class="drill-category">บัญชีผู้ใช้</span><span>ระดับท้าทาย</span><span>ประมาณ 25 นาที</span></div></div>
+                <button class="drill-action" type="button" data-scenario="ผู้ใช้ไม่ได้รับรหัสยืนยันตัวตน">เริ่มซ้อม</button>
+              </article>
+              <article class="drill-item" data-category="hardware">
+                <div class="drill-icon amber">PC</div>
+                <div><h3 class="drill-name">เครื่องทำงานเปิดไม่ติดก่อนประชุม</h3><div class="drill-meta"><span class="drill-category">อุปกรณ์</span><span>ระดับปานกลาง</span><span>ประมาณ 20 นาที</span></div></div>
+                <button class="drill-action" type="button" data-scenario="เครื่องทำงานเปิดไม่ติดก่อนประชุม">เริ่มซ้อม</button>
+              </article>
+            </div>
+            <p class="empty-state" id="empty-state" hidden>ยังไม่มีสถานการณ์ในหมวดนี้</p>
+          </div>
+
+          <aside class="schedule" id="schedule" aria-labelledby="schedule-heading">
+            <div class="schedule-head"><h3 id="schedule-heading">รอบฝึกซ้อมถัดไป</h3><span class="month-label">พฤศจิกายน 2026</span></div>
+            <div class="event">
+              <p class="event-date">พุธ · 11 พ.ย. · 14:30 น.</p>
+              <p class="event-title">เครือข่ายสำนักงานขัดข้อง</p>
+              <p class="event-details">ห้อง War Room · 30 นาที<br>ผู้เข้าร่วม 4 / 8 คน</p>
+              <button class="event-join" type="button" aria-pressed="false">ลงชื่อเข้าร่วม</button>
+            </div>
+            <div class="event">
+              <p class="event-date">ศุกร์ · 20 พ.ย. · 10:00 น.</p>
+              <p class="event-title">บัญชีผู้ใช้ถูกล็อก</p>
+              <p class="event-details">ออนไลน์ · 20 นาที<br>ผู้เข้าร่วม 3 / 6 คน</p>
+              <button class="event-join" type="button" aria-pressed="false">ลงชื่อเข้าร่วม</button>
+            </div>
+            <div class="event">
+              <p class="event-date">อังคาร · 24 พ.ย. · 15:00 น.</p>
+              <p class="event-title">อุปกรณ์สำคัญขัดข้อง</p>
+              <p class="event-details">ห้องประชุม B · 30 นาที<br>ผู้เข้าร่วม 2 / 8 คน</p>
+              <button class="event-join" type="button" aria-pressed="false">ลงชื่อเข้าร่วม</button>
+            </div>
+            <div class="team-note"><strong>เตรียมทีมก่อนวันซ้อม</strong><p>ชวนเพื่อนร่วมทีมและตรวจสอบเวลาว่าง เพื่อให้ทุกบทบาทได้ฝึกพร้อมกัน</p></div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="method" id="method" aria-label="ขั้นตอนการฝึกซ้อม">
+        <div class="method-step"><span class="step-num">01</span><span class="step-copy"><strong>เลือกสถานการณ์</strong><span>กำหนดโจทย์ให้ตรงกับระบบและทีม</span></span></div>
+        <div class="method-step"><span class="step-num">02</span><span class="step-copy"><strong>ซ้อมร่วมกัน</strong><span>สื่อสาร แก้ไข และบันทึกการตัดสินใจ</span></span></div>
+        <div class="method-step"><span class="step-num">03</span><span class="step-copy"><strong>ทบทวนผล</strong><span>เก็บบทเรียนเพื่อปรับปรุงการตอบสนอง</span></span></div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner"><span class="footer-brand">DRILL OPS</span><span>พื้นที่ฝึกซ้อมเพื่อการให้บริการ IT ที่พร้อมกว่าเดิม</span><span>© 2026 IT Support Exercise Hub</span></div>
+  </footer>
+
+  <dialog id="exercise-dialog" aria-labelledby="dialog-title">
+    <form class="dialog-content" id="exercise-form">
+      <div class="dialog-top"><div><p class="section-kicker">START EXERCISE</p><h2 id="dialog-title">เริ่มสถานการณ์ซ้อม</h2></div><button class="dialog-close" type="button" aria-label="ปิดหน้าต่าง">×</button></div>
+      <p class="dialog-description" id="dialog-scenario">เลือกทีมและบทบาทก่อนเริ่มสถานการณ์</p>
+      <label class="form-label" for="team-select">ทีมที่เข้าร่วม</label>
+      <select class="form-control" id="team-select" required>
+        <option value="">เลือกทีม</option>
+        <option>Service Desk</option>
+        <option>IT Operations</option>
+        <option>End User Support</option>
+        <option>ทีม IT Support</option>
+      </select>
+      <label class="form-label" for="role-select">บทบาทในการซ้อม</label>
+      <select class="form-control" id="role-select" required>
+        <option value="">เลือกบทบาท</option>
+        <option>ผู้รับแจ้งเหตุ</option>
+        <option>ผู้ประสานงาน</option>
+        <option>ผู้แก้ไขปัญหา</option>
+        <option>ผู้สังเกตการณ์</option>
+      </select>
+      <div class="dialog-actions"><button class="button button-outline" type="button" data-close-dialog>ยกเลิก</button><button class="button button-primary" type="submit">เริ่มสถานการณ์ <span aria-hidden="true">→</span></button></div>
+    </form>
+  </dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    const filterButtons = document.querySelectorAll(".filter-button");
+    const drillItems = document.querySelectorAll(".drill-item");
+    const emptyState = document.querySelector("#empty-state");
+    const dialog = document.querySelector("#exercise-dialog");
+    const dialogScenario = document.querySelector("#dialog-scenario");
+    const exerciseForm = document.querySelector("#exercise-form");
+    const toast = document.querySelector("#toast");
+    let toastTimer;
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add("is-visible");
+      window.clearTimeout(toastTimer);
+      toastTimer = window.setTimeout(() => toast.classList.remove("is-visible"), 3200);
+    }
+
+    filterButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const filter = button.dataset.filter;
+        let visibleCount = 0;
+        filterButtons.forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
+        drillItems.forEach((item) => {
+          const visible = filter === "all" || item.dataset.category === filter;
+          item.hidden = !visible;
+          if (visible) visibleCount += 1;
+        });
+        emptyState.hidden = visibleCount > 0;
+      });
+    });
+
+    document.querySelectorAll("[data-scenario]").forEach((button) => {
+      button.addEventListener("click", () => {
+        dialogScenario.textContent = `สถานการณ์: ${button.dataset.scenario}`;
+        dialog.showModal();
+      });
+    });
+
+    document.querySelector(".dialog-close").addEventListener("click", () => dialog.close());
+    document.querySelector("[data-close-dialog]").addEventListener("click", () => dialog.close());
+    dialog.addEventListener("click", (event) => {
+      if (event.target === dialog) dialog.close();
+    });
+    exerciseForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const team = document.querySelector("#team-select").value;
+      const scenario = dialogScenario.textContent.replace("สถานการณ์: ", "");
+      dialog.close();
+      exerciseForm.reset();
+      showToast(`เตรียมซ้อม “${scenario}” กับทีม ${team} แล้ว`);
+    });
+
+    document.querySelectorAll(".event-join").forEach((button) => {
+      button.addEventListener("click", () => {
+        const joined = button.getAttribute("aria-pressed") === "true";
+        button.setAttribute("aria-pressed", String(!joined));
+        button.textContent = joined ? "ลงชื่อเข้าร่วม" : "ลงชื่อแล้ว";
+        showToast(joined ? "ยกเลิกการลงชื่อเข้าร่วมแล้ว" : "ลงชื่อเข้าร่วมรอบซ้อมแล้ว");
+      });
+    });
+
+    document.querySelectorAll("[data-notice]").forEach((button) => {
+      button.addEventListener("click", () => showToast(button.dataset.notice));
+    });
+  </script>
+</body>
+</html>
